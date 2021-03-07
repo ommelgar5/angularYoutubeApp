@@ -1,0 +1,68 @@
+<div class="container main-container">
+  <h1>Canal de Youtube</h1>
+  <hr>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4 mb-3" *ngIf="videos.length > 0">
+
+    <div class="col" *ngFor="let video of videos" >
+      <div class="card">
+        <img [src]="video.thumbnails.high.url" class="card-img-top" [alt]="video.title">
+        <div class="card-body">
+          <h5 class="card-title">{{ video.title }}</h5>
+          <div class="d-grid">
+            <button class="btn btn-outline-primary" type="button" data-bs-toggle="modal" data-bs-target="#myModal"
+                    (click)="verVideo( video )">Ver video</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="d-grid">
+    <button type="button" class="btn btn-outline-primary"
+            (click)="verMasVideos()">Ver mas videos</button>
+  </div>
+</div>
+
+<!--
+
+  Para controlar el cierre de la ventan modal
+
+    data-bs-backdrop="static"   -> no se cierre al dar click afuera del contendio del modal
+    data-bs-keyboard="false"    -> no cerrar al precionar la tecla ESC
+
+ -->
+  <div class="modal fade"
+            id="myModal"
+            #modal
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+            data-bs-backdrop="static"
+            data-bs-keyboard="false">
+      <div class="modal-dialog">
+
+        <div class="modal-content" *ngIf="videoSeleccionado">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{ videoSeleccionado.title }}</h5>
+          </div>
+          <div class="modal-body">
+
+            <iframe
+                    width="100%"
+                    height="315"
+                    [src]=" videoSeleccionado.resourceId.videoId | youtube"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen>
+            </iframe>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" (click)="cerrarModal()">Cerrar</button>
+          </div>
+        </div>
+
+      </div>
+  </div>
+
